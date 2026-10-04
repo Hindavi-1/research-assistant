@@ -15,31 +15,50 @@ export function TitleSelector({ titles, selectedTitleId, onSelect, disabled }: T
 
   return (
     <div className="space-y-2">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
         Candidate titles — pick one
       </p>
-      {titles.map((title) => {
-        const isSelected = title.id === selectedTitleId || title.is_selected;
-        return (
-          <button
-            key={title.id}
-            type="button"
-            disabled={disabled}
-            onClick={() => onSelect(title.id)}
-            className={cn(
-              "flex w-full items-center justify-between gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors",
-              isSelected
-                ? "border-brand-500 bg-brand-50 dark:bg-brand-900/20"
-                : "border-slate-200 hover:border-brand-300 dark:border-slate-700",
-              disabled && "cursor-not-allowed opacity-60"
-            )}
-          >
-            <span className="flex-1 text-slate-800 dark:text-slate-100">{title.title_text}</span>
-            <Badge>{title.style}</Badge>
-            {isSelected && <CheckCircle2 size={16} className="shrink-0 text-brand-600" />}
-          </button>
-        );
-      })}
+      <div className="space-y-1.5">
+        {titles.map((title) => {
+          const isSelected = title.id === selectedTitleId || title.is_selected;
+          return (
+            <button
+              key={title.id}
+              type="button"
+              disabled={disabled}
+              onClick={() => onSelect(title.id)}
+              className={cn(
+                "group flex w-full items-start gap-2.5 rounded-xl border px-3.5 py-2.5 text-left text-sm transition-all duration-150",
+                isSelected
+                  ? "border-brand-400 bg-brand-50 shadow-sm dark:border-brand-600 dark:bg-brand-900/20"
+                  : "border-slate-200 bg-slate-50/50 hover:border-brand-300 hover:bg-brand-50/40 dark:border-slate-700/70 dark:bg-slate-800/30 dark:hover:border-brand-700 dark:hover:bg-brand-900/10",
+                disabled && "cursor-not-allowed opacity-60"
+              )}
+            >
+              {/* Selection indicator */}
+              <span
+                className={cn(
+                  "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 transition-all",
+                  isSelected
+                    ? "border-brand-500 bg-brand-500"
+                    : "border-slate-300 dark:border-slate-600"
+                )}
+              >
+                {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
+              </span>
+
+              <span className="flex-1 font-medium leading-snug text-slate-800 dark:text-slate-100">
+                {title.title_text}
+              </span>
+
+              <div className="flex shrink-0 items-center gap-1.5">
+                <Badge>{title.style}</Badge>
+                {isSelected && <CheckCircle2 size={14} className="text-brand-500" />}
+              </div>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
